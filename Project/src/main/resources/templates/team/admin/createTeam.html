@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<form th:method="POST" th:action="@{/team}" th:object="${team}">
+
+    <label for="coachName" th:unless="${coaches.isEmpty()}">Выберите тренера: </label>
+    <label for="coachName" th:if="${coaches.isEmpty()}">Все тренеры заняты: </label>
+    <select th:object="${coach}" th:field="*{coachName}" id="coachName">
+        <option value=null></option>
+        <option th:each="coach : ${coaches}" th:value="${coach.getCoachName()}"
+                th:text="${coach.getCoachName()}"></option>
+    </select>
+
+    <br/>
+    <label for="teamName">Введите название команды: </label>
+    <input type="text" th:field="*{teamName}" id="teamName">
+    <br/>
+    <label for="teamCountry">Введите страну команды: </label>
+    <input type="text" th:field="*{teamCountry}" id="teamCountry">
+    <br/>
+    <label for="numberOfPoints">Введите количество очков: </label>
+    <input type="text" th:field="*{numberOfPoints}" id="numberOfPoints">
+    <br/>
+    <label for="numberOfGames">Введите количество игр: </label>
+    <input type="text" th:field="*{numberOfGames}" id="numberOfGames">
+    <br/>
+    <label for="numberOfWins">Введите количество побед: </label>
+    <input type="text" th:field="*{numberOfWins}" id="numberOfWins">
+    <br/>
+    <label for="numberOfDefeats">Введите количество поражений: </label>
+    <input type="text" th:field="*{numberOfDefeats}" id="numberOfDefeats">
+    <br/>
+    <label for="numberOfDraws">Введите количество ничей: </label>
+    <input type="text" th:field="*{numberOfDraws}" id="numberOfDraws">
+    <br/>
+    <label for="goalsScored">Введите забитые голы: </label>
+    <input type="text" th:field="*{goalsScored}" id="goalsScored">
+    <br/>
+    <label for="goalsConceded">Введите пропущенные голы: </label>
+    <input type="text" th:field="*{goalsConceded}" id="goalsConceded">
+    <br/>
+    <label for="stadium">Введите стадион команды: </label>
+    <input type="text" th:field="*{stadium}" id="stadium">
+    <br/>
+
+    <label for="playerName">Выберите игроков: </label>
+    <select th:object="${player}" th:field="*{playerName}" id="playerName" multiple>
+        <option th:each="player : ${players}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}"></option>
+    </select>
+
+    <br/>
+    <input type="submit" value="Создать команду">
+</form>
+
+</body>
+</html>

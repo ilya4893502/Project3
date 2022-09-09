@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<p th:text="${'Последние игры: ' + teams.get(0).getTeamName()}"></p>
+<table>
+
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    <div th:each="match : ${teams.get(0).getMatches()}" th:if="${match.getMatchStatus() == 'завершен'}">
+
+        <tr>
+            <td th:text="${match.getMatchDate() + ' ' + match.getMatchTime()}" th:rowspan="2"></td>
+            <td th:text="${match.getLeague().getLeagueName()}" th:rowspan="2"></td>
+            <td><a th:href="@{/match/{match_id}(match_id=${match.getMatchId()})}"
+                   th:text="${match.getNameTeamOne()}"></a></td>
+            <td th:text="${match.getGoalsTeamOne()}"></td>
+        </tr>
+
+        <tr>
+            <td th:text="${match.getNameTeamTwo()}"></td>
+            <td th:text="${match.getGoalsTeamTwo()}"></td>
+        </tr>
+
+    </div>
+
+</table>
+
+
+<br/>
+
+
+<p th:text="${'Последние игры: ' + teams.get(1).getTeamName()}"></p>
+<table>
+
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    <div th:each="match : ${teams.get(1).getMatches()}" th:if="${match.getMatchStatus() == 'завершен'}">
+
+        <tr>
+            <td th:text="${match.getMatchDate() + ' ' + match.getMatchTime()}" th:rowspan="2"></td>
+            <td th:text="${match.getLeague().getLeagueName()}" th:rowspan="2"></td>
+            <td><a th:href="@{/match/{match_id}(match_id=${match.getMatchId()})}"
+                   th:text="${match.getNameTeamOne()}"></a></td>
+            <td th:text="${match.getGoalsTeamOne()}"></td>
+        </tr>
+
+        <tr>
+            <td th:text="${match.getNameTeamTwo()}"></td>
+            <td th:text="${match.getGoalsTeamTwo()}"></td>
+        </tr>
+
+    </div>
+
+</table>
+
+
+<br/>
+
+
+<p th:text="${'Очные встречи'}"></p>
+<table>
+
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    <div th:each="match : ${matches}" th:if="${match.getMatchStatus() == 'завершен'}">
+
+        <tr>
+            <td th:text="${match.getMatchDate() + ' ' + match.getMatchTime()}" th:rowspan="2"></td>
+            <td th:text="${match.getLeague().getLeagueName()}" th:rowspan="2"></td>
+            <td><a th:href="@{/match/{match_id}(match_id=${match.getMatchId()})}"
+                   th:text="${match.getNameTeamOne()}"></a></td>
+            <td th:text="${match.getGoalsTeamOne()}"></td>
+        </tr>
+
+        <tr>
+            <td th:text="${match.getNameTeamTwo()}"></td>
+            <td th:text="${match.getGoalsTeamTwo()}"></td>
+        </tr>
+
+    </div>
+
+</table>
+
+
+</body>
+</html>

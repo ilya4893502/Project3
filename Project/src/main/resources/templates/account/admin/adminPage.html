@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{/league/create_league_form}">
+    <input type="submit" value="Создать лигу">
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/league/select_league}">
+    <input type="submit" value="Редактировать лигу">
+</form>
+
+<br/>
+<br/>
+
+<form th:method="GET" th:action="@{/coach/create_coach_form}">
+    <input type="submit" value="Создать тренера">
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/coach/select_coach}">
+    <input type="submit" value="Редактировать тренера">
+</form>
+
+<br/>
+<br/>
+
+<form th:method="GET" th:action="@{/player/create_player_form}">
+    <input type="submit" value="Создать игрока">
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/player/select_player}">
+    <input type="submit" value="Редактировать игрока">
+</form>
+
+<br/>
+<br/>
+
+<form th:method="GET" th:action="@{/team/create_team_form}">
+    <input type="submit" value="Создать команду">
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/team/select_team}">
+    <input type="submit" value="Редактировать команду">
+</form>
+
+<br/>
+<br/>
+
+<form th:method="GET" th:action="@{/match/create_match_form}">
+    <input type="submit" value="Создать матч">
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/match/select_match}">
+    <input type="submit" value="Редактировать матч">
+</form>
+
+<br/>
+<br/>
+
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти">
+</form>
+
+</body>
+</html>

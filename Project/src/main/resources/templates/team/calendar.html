@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>ВРЕМЯ</th>
+        <th>КОМАНДЫ</th>
+        <th>РЕЗУЛЬТАТ</th>
+    </tr>
+
+    <div th:each="match : ${matches}" th:if="${match.getMatchStatus() == 'не начался'}">
+        <tr>
+            <td th:text="${match.getMatchDate() + ' ' + match.getMatchTime()}" th:rowspan="2"></td>
+            <td th:text="${match.getNameTeamOne()}"></td>
+            <td>-</td>
+        </tr>
+
+        <tr>
+            <td th:text="${match.getNameTeamTwo()}"></td>
+            <td>-</td>
+        </tr>
+    </div>
+
+</table>
+
+</body>
+</html>

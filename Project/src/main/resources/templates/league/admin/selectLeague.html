@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{/league/edit_league_form}">
+    <label for="leagueName">Выберите лигу: </label>
+    <select th:object="${league}" th:field="*{leagueName}" id="leagueName">
+        <option th:each="league : ${leagues}" th:value="${league.getLeagueName()}"
+                th:text="${league.getLeagueName()}"></option>
+    </select>
+    <input type="submit" value="Выбрать">
+</form>
+
+</body>
+</html>

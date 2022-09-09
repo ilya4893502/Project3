@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<a th:href="@{/user/{id}/search_team(id=${person.getId()})}">Добавить команду</a>
+
+<p th:text="${'Мои команды:'}"></p>
+<div th:each="team : ${person.getTeams()}">
+    <a th:href="@{/team/{team_name}(team_name=${team.getTeamName()})}" th:text="${team.getTeamName()}"></a>
+</div>
+
+<br/>
+
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<p th:text="${matches.get(0).getLeague().getLeagueCountry() +  ': ' +
+matches.get(0).getLeague().getLeagueName()}"></p>
+
+<br/>
+
+<a th:href="@{/league/{league_name}(league_name=${matches.get(0).getLeague().getLeagueName()})}">Таблица</a>
+<a th:href="@{/league/{league_name}/calendar(league_name=${matches.get(0).getLeague().getLeagueName()})}">Календарь</a>
+
+<br/>
+
+<table>
+    <tr>
+        <th>ВРЕМЯ</th>
+        <th>КОМАНДЫ</th>
+        <th>РЕЗУЛЬТАТ</th>
+    </tr>
+
+    <div th:each="match : ${matches}" th:if="${match.getMatchStatus() == 'завершен'}">
+        <tr>
+            <td th:text="${match.getMatchDate() + ' ' + match.getMatchTime()}" th:rowspan="2"></td>
+            <td th:text="${match.getNameTeamOne()}"></td>
+            <td th:text="${match.getGoalsTeamOne()}"></td>
+        </tr>
+
+        <tr>
+            <td th:text="${match.getNameTeamTwo()}"></td>
+            <td th:text="${match.getGoalsTeamTwo()}"></td>
+        </tr>
+    </div>
+
+</table>
+
+</body>
+</html>

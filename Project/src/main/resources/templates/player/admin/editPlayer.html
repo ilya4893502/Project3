@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/player/{player_name}(player_name=${player.getPlayerName()})}"
+      th:object="${player}">
+    <label for="playerName">Введите имя игрока: </label>
+    <input type="text" th:field="*{playerName}" id="playerName">
+    <br/>
+    <label for="positionPlayer">Выберите позицию игрока: </label>
+    <select th:object="${player}" th:field="*{positionPlayer}" id="positionPlayer">
+        <option value=null></option>
+        <option value="вратарь">вратарь</option>
+        <option value="защитник">защитник</option>
+        <option value="полузащитник">полузащитник</option>
+        <option value="нападающий">нападающий</option>
+    </select>
+
+    <br/>
+
+    <label for="dateOfBirthPlayer">Введите дату рождения игрока (дд/мм/гггг): </label>
+    <input type="text" th:field="*{dateOfBirthPlayer}" id="dateOfBirthPlayer">
+    <br/>
+    <label for="playerCountry">Введите страну игрока: </label>
+    <input type="text" th:field="*{playerCountry}" id="playerCountry">
+    <br/>
+    <label for="redCards">Красные карточки: </label>
+    <input type="text" th:field="*{redCards}" id="redCards">
+    <br/>
+    <label for="yellowCards">Желтые карточки: </label>
+    <input type="text" th:field="*{yellowCards}" id="yellowCards">
+    <br/>
+    <label for="goalsScored">Забитые голы: </label>
+    <input type="text" th:field="*{goalsScored}" id="goalsScored">
+    <br/>
+    <label for="assists">Голевые передачи: </label>
+    <input type="text" th:field="*{assists}" id="assists">
+    <br/>
+    <label for="playerNumber">Введите номер игрока: </label>
+    <input type="text" th:field="*{playerNumber}" id="playerNumber">
+    <br/>
+    <label for="injury">Травма (да/нет): </label>
+    <input type="text" th:field="*{injury}" id="injury">
+    <br/>
+    <label for="games">Количество игр: </label>
+    <input type="text" th:field="*{games}" id="games">
+
+    <br/>
+
+    <label for="teamName" th:if="${teams1 == null || teams1.isEmpty()}">Выберите команду для игрока: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamName" th:if="${teams1 == null || teams1.isEmpty()}">
+        <option value=null></option>
+        <option th:each="team : ${teams2}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <label for="teamName" th:unless="${teams1 == null || teams1.isEmpty()}">Измените текущую команду игрока: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamName" th:unless="${teams1 == null || teams1.isEmpty()}">
+        <option th:value="${teams1.get(0).getTeamName()}"
+                th:text="${teams1.get(0).getTeamName()}"></option>
+        <option value=null>нет команды</option>
+        <option th:each="team : ${teams2}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <input type="submit" value="Изменить игрока">
+</form>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/player/{player_name}(player_name=${player.getPlayerName()})}">
+    <input type="submit" value="Удалить игрока">
+</form>
+
+</body>
+</html>

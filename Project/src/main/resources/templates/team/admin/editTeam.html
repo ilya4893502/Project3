@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/team/{team_name}(team_name=${team.getTeamName()})}"
+      th:object="${team}">
+
+    <label for="coachName" th:if="${coach1 == null}">Назначить тренера: </label>
+    <select th:object="${coach}" th:field="*{coachName}" id="coachName" th:if="${coach1 == null}">
+        <option value=null></option>
+        <option th:each="coach : ${coaches}" th:value="${coach.getCoachName()}"
+                th:text="${coach.getCoachName()}"></option>
+    </select>
+
+    <label for="currentCoach" th:if="${coach1 != null}">Действующий тренер: </label>
+    <input type="text" th:value="${coach1.getCoachName()}" id="currentCoach"
+           th:if="${coach1 != null}" readonly>
+
+    <br/>
+
+    <label for="coachName" th:if="${coach1 != null}">Назначить другого тренера: </label>
+    <select th:object="${coach}" th:field="*{coachName}" id="coachName" th:if="${coach1 != null}">
+        <option value=null></option>
+        <option th:each="coach : ${coaches}" th:value="${coach.getCoachName()}"
+                th:text="${coach.getCoachName()}"></option>
+    </select>
+
+    <br/>
+    <label for="teamName">Введите название команды: </label>
+    <input type="text" th:field="*{teamName}" id="teamName">
+    <br/>
+    <label for="teamCountry">Введите страну команды: </label>
+    <input type="text" th:field="*{teamCountry}" id="teamCountry">
+    <br/>
+    <label for="numberOfPoints">Введите количество очков: </label>
+    <input type="text" th:field="*{numberOfPoints}" id="numberOfPoints">
+    <br/>
+    <label for="numberOfGames">Введите количество игр: </label>
+    <input type="text" th:field="*{numberOfGames}" id="numberOfGames">
+    <br/>
+    <label for="numberOfWins">Введите количество побед: </label>
+    <input type="text" th:field="*{numberOfWins}" id="numberOfWins">
+    <br/>
+    <label for="numberOfDefeats">Введите количество поражений: </label>
+    <input type="text" th:field="*{numberOfDefeats}" id="numberOfDefeats">
+    <br/>
+    <label for="numberOfDraws">Введите количество ничей: </label>
+    <input type="text" th:field="*{numberOfDraws}" id="numberOfDraws">
+    <br/>
+    <label for="goalsScored">Введите забитые голы: </label>
+    <input type="text" th:field="*{goalsScored}" id="goalsScored">
+    <br/>
+    <label for="goalsConceded">Введите пропущенные голы: </label>
+    <input type="text" th:field="*{goalsConceded}" id="goalsConceded">
+    <br/>
+    <label for="stadium">Введите стадион команды: </label>
+    <input type="text" th:field="*{stadium}" id="stadium">
+    <br/>
+
+    <label for="playerName" th:if="${players1 == null}">Выберите игроков: </label>
+    <select th:object="${player}" th:field="*{playerName}" id="playerName"
+            th:if="${players1 == null}" multiple>
+        <option th:each="player : ${players}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}"></option>
+    </select>
+
+    <label for="playerName" th:unless="${players1 == null}">Удалите игроков из команды: </label>
+    <select th:object="${player}" th:field="*{playerName}" id="playerName"
+            th:unless="${players1 == null}" multiple>
+        <option th:each="player : ${players1}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}"></option>
+    </select>
+
+    <br/>
+
+    <label for="playerName" th:unless="${players1 == null}">Добавьте игроков в команду: </label>
+    <select th:object="${player}" th:field="*{playerName}" id="playerName"
+            th:unless="${players1 == null}" multiple>
+        <option th:each="player : ${players2}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}"></option>
+    </select>
+
+    <br/>
+    <input type="submit" value="Изменить команду">
+</form>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/team/{team_name}(team_name=${team.getTeamName()})}">
+    <input type="submit" value="Удалить команду">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{match/edit_match_form}">
+    <label for="matchId">Выберите матч: </label>
+    <select th:object="${match}" th:field="*{matchId}" id="matchId">
+        <option th:each="match : ${matches}" th:value="${match.getMatchId()}"
+                th:text="${match.getNameTeamOne() + ' - ' + match.getNameTeamTwo()}"></option>
+    </select>
+    <input type="submit" value="Выбрать">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<p th:text="${match.getLeague().getLeagueCountry() + ': ' + match.getLeague().getLeagueName() +
+' - ТУР ' + match.getTour()}"></p>
+
+<p th:text="${match.getTeams().get(0).getTeamName()}" style="text-align : left"></p>
+<p th:text="${match.getTeams().get(1).getTeamName()}" style="text-align : right"></p>
+
+<p th:text="${match.getMatchDate() + ' ' + match.getMatchTime()}" style="text-align: center"></p>
+<p style="text-align: center">-</p>
+
+<p>Не сыграют</p>
+<div th:each="player : ${players}" th:if="${player.getTeams().get(0).getTeamName() ==
+match.getTeams().get(0).getTeamName()}" style="text-align : left">
+    <p th:text="${player.getPlayerName() + ' (травма)'}" th:if="${player.getInjury() == true}"></p>
+</div>
+
+<div th:each="player : ${players}" th:if="${player.getTeams().get(0).getTeamName() ==
+match.getTeams().get(1).getTeamName()}" style="text-align : right">
+    <p th:text="${player.getPlayerName() + ' (травма)'}" th:if="${player.getInjury() == true}"></p>
+</div>
+
+<br/>
+
+<p>Информация о матче</p>
+<p th:text="${'Судья: ' + match.getJudge()}"></p>
+<p th:text="${'Стадион: ' + match.getMatchStadium()}"></p>
+
+</body>
+</html>

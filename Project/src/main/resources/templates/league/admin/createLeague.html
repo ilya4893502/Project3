@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/league}" th:object="${league}">
+
+    <label for="leagueName">Название лиги: </label>
+    <input th:type="text" th:field="*{leagueName}" id="leagueName">
+    <br/>
+    <label for="leagueCountry">Страна: </label>
+    <input th:type="text" th:field="*{leagueCountry}" id="leagueCountry">
+    <br/>
+    <label for="season">Сезон (гггг/гггг): </label>
+    <input th:type="text" th:field="*{season}" id="season">
+    <br/>
+
+    <label for="teamName">Выберите команды: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamName" multiple>
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <input type="submit" value="Создать лигу">
+</form>
+
+</body>
+</html>

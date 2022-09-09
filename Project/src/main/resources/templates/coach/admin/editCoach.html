@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/coach/{coach_name}(coach_name=${coach.getCoachName()})}"
+      th:object="${coach}">
+    <label for="coachName">Введите имя тренера: </label>
+    <input type="text" th:field="*{coachName}" id="coachName">
+    <br/>
+    <label for="coachCountry">Введите страну тренера: </label>
+    <input type="text" th:field="*{coachCountry}" id="coachCountry">
+    <br/>
+    <label for="dateOfBirthCoach">Введите дату рождения тренера (дд/мм/гггг): </label>
+    <input type="text" th:field="*{dateOfBirthCoach}" id="dateOfBirthCoach">
+
+    <br/>
+
+    <label for="teamName" th:if="${team1 == null}">Выберите команду для тренера: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamName" th:if="${team1 == null}">
+        <option value=null></option>
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <label for="teamName" th:if="${team1 != null}">Измените текущую команду тренера: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamName" th:if="${team1 != null}">
+        <option th:value="${team1.getTeamName()}" th:text="${team1.getTeamName()}"></option>
+        <option value=null>нет команды</option>
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <input type="submit" value="Изменить тренера">
+</form>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/coach/{coach_name}(coach_name=${coach.getCoachName()})}">
+    <input type="submit" value="Удалить тренера">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<p th:text="${team.getTeamName()}"></p>
+
+<br/>
+
+<p>Вратари: </p>
+<table>
+    <tr>
+        <th>#</th>
+        <th>ИМЯ</th>
+        <th>ИГРЫ</th>
+        <th>ГОЛЫ</th>
+        <th>Г/П</th>
+        <th>ЖК</th>
+        <th>КК</th>
+    </tr>
+
+    <tr th:each="player : ${players}" th:if="${player.getPositionPlayer() == 'вратарь'}">
+        <td th:text="${player.getPlayerNumber()}"></td>
+        <td><a th:href="@{/player/{player_name}(player_name=${player.getPlayerName()})}"
+               th:text="${player.getPlayerName()}"></a></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getAssists()}"></td>
+        <td th:text="${player.getYellowCards()}"></td>
+        <td th:text="${player.getRedCards()}"></td>
+    </tr>
+</table>
+
+
+<p>Защитники: </p>
+<table>
+    <tr>
+        <th>#</th>
+        <th>ИМЯ</th>
+        <th>ИГРЫ</th>
+        <th>ГОЛЫ</th>
+        <th>Г/П</th>
+        <th>ЖК</th>
+        <th>КК</th>
+    </tr>
+
+    <tr th:each="player : ${players}" th:if="${player.getPositionPlayer() == 'защитник'}">
+        <td th:text="${player.getPlayerNumber()}"></td>
+        <td><a th:href="@{/player/{player_name}(player_name=${player.getPlayerName()})}"
+               th:text="${player.getPlayerName()}"></a></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getAssists()}"></td>
+        <td th:text="${player.getYellowCards()}"></td>
+        <td th:text="${player.getRedCards()}"></td>
+    </tr>
+</table>
+
+
+<p>Полузащитники: </p>
+<table>
+    <tr>
+        <th>#</th>
+        <th>ИМЯ</th>
+        <th>ИГРЫ</th>
+        <th>ГОЛЫ</th>
+        <th>Г/П</th>
+        <th>ЖК</th>
+        <th>КК</th>
+    </tr>
+
+    <tr th:each="player : ${players}" th:if="${player.getPositionPlayer() == 'полузащитник'}">
+        <td th:text="${player.getPlayerNumber()}"></td>
+        <td><a th:href="@{/player/{player_name}(player_name=${player.getPlayerName()})}"
+               th:text="${player.getPlayerName()}"></a></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getAssists()}"></td>
+        <td th:text="${player.getYellowCards()}"></td>
+        <td th:text="${player.getRedCards()}"></td>
+    </tr>
+</table>
+
+
+<p>Нападающий: </p>
+<table>
+    <tr>
+        <th>#</th>
+        <th>ИМЯ</th>
+        <th>ИГРЫ</th>
+        <th>ГОЛЫ</th>
+        <th>Г/П</th>
+        <th>ЖК</th>
+        <th>КК</th>
+    </tr>
+
+    <tr th:each="player : ${players}" th:if="${player.getPositionPlayer() == 'нападающий'}">
+        <td th:text="${player.getPlayerNumber()}"></td>
+        <td><a th:href="@{/player/{player_name}(player_name=${player.getPlayerName()})}"
+               th:text="${player.getPlayerName()}"></a></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getGoalsScored()}"></td>
+        <td th:text="${player.getAssists()}"></td>
+        <td th:text="${player.getYellowCards()}"></td>
+        <td th:text="${player.getRedCards()}"></td>
+    </tr>
+</table>
+
+
+<p>Тренер: </p>
+<table>
+    <th>#</th>
+    <th>ИМЯ</th>
+    <tr>
+        <td></td>
+        <td><a th:href="@{/coach/{coach_name}(coach_name=${coach.getCoachName()})}"
+               th:text="${coach.getCoachName()}"></a></td>
+    </tr>
+</table>
+</body>
+</html>

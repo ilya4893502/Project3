@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{/coach/edit_coach_form}">
+    <label for="coachName">Выберите тренера: </label>
+    <select th:object="${coach}" th:field="*{coachName}" id="coachName">
+        <option th:each="coach : ${coaches}" th:value="${coach.getCoachName()}"
+                th:text="${coach.getCoachName()}"></option>
+    </select>
+    <input type="submit" value="Выбрать">
+</form>
+
+</body>
+</html>

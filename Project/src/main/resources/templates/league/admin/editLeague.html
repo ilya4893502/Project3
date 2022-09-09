@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/league/{league_name}(league_name=${league.getLeagueName()})}"
+      th:object="${league}">
+
+    <label for="leagueName">Название лиги: </label>
+    <input th:type="text" th:field="*{leagueName}" id="leagueName">
+    <br/>
+    <label for="leagueCountry">Страна: </label>
+    <input th:type="text" th:field="*{leagueCountry}" id="leagueCountry">
+    <br/>
+    <label for="season">Сезон (гггг/гггг): </label>
+    <input th:type="text" th:field="*{season}" id="season">
+
+    <br/>
+
+    <label for="teamNamesOnAddFirstTime" th:if="${teams1 == null}">Выберите команды: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamNamesOnAddFirstTime" multiple
+            th:if="${teams1 == null}">
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <label for="teamNamesOnDelete" th:unless="${teams1 == null}">Удалите команды из лиги: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamNamesOnDelete" multiple
+            th:unless="${teams1 == null}">
+        <option th:each="team : ${teams1}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <label for="teamNamesOnAdd" th:unless="${teams1 == null}">Добавить команды: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamNamesOnAdd" multiple
+            th:unless="${teams1 == null}">
+        <option th:each="team : ${teams2}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <input type="submit" value="Редактировать лигу">
+</form>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/league/{league_name}(league_name=${league.getLeagueName()})}">
+    <input type="submit" value="Удалить лигу">
+</form>
+
+
+</body>
+</html>

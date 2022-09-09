@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{/user/{id}/search_team(id=${person.getId()})}" th:object="${team}">
+    <label for="teamName">Введите запрос: </label>
+    <input type="text" th:field="*{teamName}" id="teamName">
+    <br/>
+    <input type="submit" value="Найти">
+</form>
+
+<p>Добавленные: </p>
+<div th:each="team : ${person.getTeams()}">
+    <p th:text="${team.getTeamName()}"></p>
+</div>
+
+
+<div th:each="team : ${teams}" th:unless="${teams.isEmpty()}">
+    <p th:text="${team.getTeamName()}"></p>
+    <form th:method="POST" th:action="@{/user/{id}/add_team(id=${person.getId()})}" th:object="${team}">
+        <input type="hidden" th:field="*{teamName}" th:value="${team.getTeamName()}">
+        <input type="submit" value="Добавить">
+    </form>
+
+</div>
+
+</body>
+</html>

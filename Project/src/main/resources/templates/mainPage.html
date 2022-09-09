@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{/auth/login}">
+    <input type="submit" value="Войти">
+</form>
+
+<form th:method="GET" th:action="@{/auth/registration}">
+    <input type="submit" value="Зарегестрироваться">
+</form>
+
+<form th:if="${authorities}" th:method="GET" th:action="@{/user/{id}(id=${person.getId()})}">
+    <input type="submit" value="Мой профиль">
+</form>
+
+<br/>
+
+<div th:each="league : ${leagues}">
+    <a th:href="@{/league/{league_name}(league_name=${league.getLeagueName()})}"
+       th:text="${league.getLeagueName()}"></a>
+</div>
+
+</body>
+</html>

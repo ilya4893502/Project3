@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/coach}" th:object="${coach}">
+    <label for="coachName">Введите имя тренера: </label>
+    <input type="text" th:field="*{coachName}" id="coachName">
+    <br/>
+    <label for="coachCountry">Введите страну тренера: </label>
+    <input type="text" th:field="*{coachCountry}" id="coachCountry">
+    <br/>
+    <label for="dateOfBirthCoach">Введите дату рождения тренера (дд/мм/гггг): </label>
+    <input type="text" th:field="*{dateOfBirthCoach}" id="dateOfBirthCoach">
+    <br/>
+
+    <label for="teamName" th:unless="${teams.isEmpty()}">Выберите команду для тренера: </label>
+    <label for="teamName" th:if="${teams.isEmpty()}">У всех команд есть тренер: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamName">
+        <option value=null></option>
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <input type="submit" value="Создать тренера">
+</form>
+
+</body>
+</html>

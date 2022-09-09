@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/player}" th:object="${player}" enctype="multipart/form-data">
+    <label for="playerName">Введите имя игрока: </label>
+    <input type="text" th:field="*{playerName}" id="playerName">
+    <br/>
+    <label for="positionPlayer">Выберите позицию игрока: </label>
+    <select th:field="*{positionPlayer}" id="positionPlayer">
+        <option value=null></option>
+        <option value="вратарь">вратарь</option>
+        <option value="защитник">защитник</option>
+        <option value="полузащитник">полузащитник</option>
+        <option value="нападающий">нападающий</option>
+    </select>
+    <br/>
+    <label for="dateOfBirthPlayer">Введите дату рождения игрока (дд/мм/гггг): </label>
+    <input type="text" th:field="*{dateOfBirthPlayer}" id="dateOfBirthPlayer">
+    <br/>
+    <label for="playerCountry">Введите страну игрока: </label>
+    <input type="text" th:field="*{playerCountry}" id="playerCountry">
+    <br/>
+    <label for="redCards">Красные карточки: </label>
+    <input type="text" th:field="*{redCards}" id="redCards">
+    <br/>
+    <label for="yellowCards">Желтые карточки: </label>
+    <input type="text" th:field="*{yellowCards}" id="yellowCards">
+    <br/>
+    <label for="goalsScored">Забитые голы: </label>
+    <input type="text" th:field="*{goalsScored}" id="goalsScored">
+    <br/>
+    <label for="assists">Голевые передачи: </label>
+    <input type="text" th:field="*{assists}" id="assists">
+    <br/>
+    <label for="playerNumber">Введите номер игрока: </label>
+    <input type="text" th:field="*{playerNumber}" id="playerNumber">
+    <br/>
+    <label for="injury">Травма (да/нет): </label>
+    <input type="text" th:field="*{injury}" id="injury">
+    <br/>
+    <label for="games">Количество игр: </label>
+    <input type="text" th:field="*{games}" id="games">
+
+    <br/>
+
+    <label for="playerImage">Загрузите изображение игрока: </label>
+    <input type="file" th:field="*{file}" name="file" id="playerImage">
+
+    <br/>
+
+    <label for="teamName">Выберите команду для игрока: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="teamName">
+        <option value=null></option>
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <input type="submit" value="Создать игрока">
+</form>
+
+</body>
+</html>

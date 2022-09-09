@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:method="GET" th:action="@{/match/create_match_form}" th:if="${league1 == null}">
+    <label for="league">Выберите лигу: </label>
+    <select th:object="${league}" th:field="*{leagueName}" id="league">
+        <option th:each="league : ${leagues}" th:value="${league.getLeagueName()}"
+                th:text="${league.getLeagueName()}"></option>
+    </select>
+    <input type="submit" value="Выбрать">
+</form>
+
+<form th:method="GET" th:action="@{/match/create_match_form}"
+      th:if="${players1 == null && players2 == null && league1 != null}">
+
+    <label for="league">Лига: </label>
+    <input type="text" th:object="${league}" th:field="*{leagueName}"
+           th:value="${league1.getLeagueName()}" id="league" readonly>
+
+    <br>
+
+    <label for="team1">Выберите команду хозяев: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="team1">
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <br/>
+
+    <label for="team2">Выберите команду гостей: </label>
+    <select th:object="${team}" th:field="*{teamName}" id="team2">
+        <option th:each="team : ${teams}" th:value="${team.getTeamName()}"
+                th:text="${team.getTeamName()}"></option>
+    </select>
+
+    <input type="submit" value="Выбрать">
+</form>
+
+
+<form th:method="POST" th:action="@{/match/create_match}" th:object="${match}"
+      th:if="${league1 != null && players1 != null && players2 != null && teams != null && team1 != null
+      && team2 != null}">
+
+    <label for="league">Лига: </label>
+    <input type="text" th:object="${league}" th:field="*{leagueName}" th:value="${league1.getLeagueName()}"
+           id="league" readonly>
+
+    <br/>
+
+    <label for="teamName1">Команда хозяев: </label>
+    <input type="text" th:object="${team1}" th:field="*{teamName}"
+           th:value="${team1.getTeamName()}" id="teamName1" readonly>
+
+    <br/>
+
+    <label for="teamName2">Команда гостей: </label>
+    <input type="text" th:object="${team2}" th:field="*{teamName}"
+           th:value="${team2.getTeamName()}" id="teamName2" readonly>
+
+    <br/>
+
+    <label for="judge">Введите судью матча: </label>
+    <input type="text" th:field="*{judge}" id="judge">
+    <br/>
+    <label for="numberOfTimes">Введите количество таймов: </label>
+    <input type="text" th:field="*{numberOfTimes}" id="numberOfTimes">
+    <br/>
+    <label for="goalsTeamOne">Количество голов команды 1: </label>
+    <input type="text" th:field="*{goalsTeamOne}" id="goalsTeamOne">
+    <br/>
+    <label for="goalsTeamTwo">Количество голов команды 2: </label>
+    <input type="text" th:field="*{goalsTeamTwo}" id="goalsTeamTwo">
+    <br/>
+    <label for="ballPossessionTeamOne">Владение мячом команды 1(%): </label>
+    <input type="text" th:field="*{ballPossessionTeamOne}" id="ballPossessionTeamOne">
+    <br/>
+    <label for="ballPossessionTeamTwo">Владение мячом команды 2(%): </label>
+    <input type="text" th:field="*{ballPossessionTeamTwo}" id="ballPossessionTeamTwo">
+    <br/>
+    <label for="goalAttemptsTeamOne">Количество ударов команды 1: </label>
+    <input type="text" th:field="*{goalAttemptsTeamOne}" id="goalAttemptsTeamOne">
+    <br/>
+    <label for="goalAttemptsTeamTwo">Количество ударов команды 2: </label>
+    <input type="text" th:field="*{goalAttemptsTeamTwo}" id="goalAttemptsTeamTwo">
+    <br/>
+    <label for="shotsOnGoalTeamOne">Количество ударов в створ команды 1: </label>
+    <input type="text" th:field="*{shotsOnGoalTeamOne}" id="shotsOnGoalTeamOne">
+    <br/>
+    <label for="shotsOnGoalTeamTwo">Количество ударов в створ команды 2: </label>
+    <input type="text" th:field="*{shotsOnGoalTeamTwo}" id="shotsOnGoalTeamTwo">
+    <br/>
+    <label for="freeKicksTeamOne">Количество штрафных команды 1: </label>
+    <input type="text" th:field="*{freeKicksTeamOne}" id="freeKicksTeamOne">
+    <br/>
+    <label for="freeKicksTeamTwo">Количество штрафных команды 2: </label>
+    <input type="text" th:field="*{freeKicksTeamTwo}" id="freeKicksTeamTwo">
+    <br/>
+    <label for="cornersTeamOne">Количество угловых команды 1: </label>
+    <input type="text" th:field="*{cornersTeamOne}" id="cornersTeamOne">
+    <br/>
+    <label for="cornersTeamTwo">Количество угловых команды 2: </label>
+    <input type="text" th:field="*{cornersTeamTwo}" id="cornersTeamTwo">
+    <br/>
+    <label for="offsidesTeamOne">Количество офсайдов команды 1: </label>
+    <input type="text" th:field="*{offsidesTeamOne}" id="offsidesTeamOne">
+    <br/>
+    <label for="offsidesTeamTwo">Количество офсайдов команды 2: </label>
+    <input type="text" th:field="*{offsidesTeamTwo}" id="offsidesTeamTwo">
+    <br/>
+    <label for="redCardsTeamOne">Количество красных карточек команды 1: </label>
+    <input type="text" th:field="*{redCardsTeamOne}" id="redCardsTeamOne">
+    <br/>
+    <label for="redCardsTeamTwo">Количество красных карточек команды 2: </label>
+    <input type="text" th:field="*{redCardsTeamTwo}" id="redCardsTeamTwo">
+    <br/>
+    <label for="yellowCardsTeamOne">Количество желтых карточек команды 1: </label>
+    <input type="text" th:field="*{yellowCardsTeamOne}" id="yellowCardsTeamOne">
+    <br/>
+    <label for="yellowCardsTeamTwo">Количество желтых карточек команды 2: </label>
+    <input type="text" th:field="*{yellowCardsTeamTwo}" id="yellowCardsTeamTwo">
+    <br/>
+    <label for="tacticsTeamOne">Тактика команды 1: </label>
+    <input type="text" th:field="*{tacticsTeamOne}" id="tacticsTeamOne">
+    <br/>
+    <label for="tacticsTeamTwo">Тактика команды 2: </label>
+    <input type="text" th:field="*{tacticsTeamTwo}" id="tacticsTeamTwo">
+    <br/>
+    <label for="tour">Тур: </label>
+    <input type="text" th:field="*{tour}" id="tour">
+    <br/>
+    <label for="matchStadium">Введите стадион матча: </label>
+    <input type="text" th:field="*{matchStadium}" id="matchStadium">
+    <br/>
+    <label for="matchDate">Введите дату матча: </label>
+    <input type="text" th:field="*{matchDate}" id="matchDate">
+    <div style="color: red" th:if="${#fields.hasErrors('matchDate')}" th:errors="*{matchDate}"></div>
+    <br/>
+    <label for="matchTime">Введите время матча: </label>
+    <input type="text" th:field="*{matchTime}" id="matchTime">
+    <div style="color: red" th:if="${#fields.hasErrors('matchTime')}" th:errors="*{matchTime}"></div>
+    <br/>
+    <label for="playTime">Введите игровое время: </label>
+    <input type="text" th:field="*{playTime}" id="playTime">'
+
+    <br/>
+
+    <label for="playersOfTeam1">Выберите игроков команды хозяев: </label>
+    <select th:object="${player}" th:field="*{playerName}" id="playersOfTeam1" multiple>
+        <option th:each="player : ${players1}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}"></option>
+    </select>
+
+    <br/>
+
+    <label for="playersOfTeam2">Выберите игроков команды гостей: </label>
+    <select th:object="${player}" th:field="*{playerName}" id="playersOfTeam2" multiple>
+        <option th:each="player : ${players2}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}"></option>
+    </select>
+
+    <br/>
+
+    <input type="submit" value="Создать матч">
+</form>
+
+</body>
+</html>
