@@ -45,6 +45,13 @@ public class Team {
     @Column(name = "stadium")
     private String stadium;
 
+    @Column(name = "team_image_name")
+    private String teamImageName;
+
+    @Lob
+    @Column(name = "team_image")
+    private byte[] teamImage;
+
     @OneToOne
     @JoinColumn(name = "coach_id", referencedColumnName = "coach_id")
     private Coach coach;
@@ -155,6 +162,22 @@ public class Team {
 
     public void setStadium(String stadium) {
         this.stadium = stadium;
+    }
+
+    public String getTeamImageName() {
+        return teamImageName;
+    }
+
+    public void setTeamImageName(String teamImageName) {
+        this.teamImageName = teamImageName;
+    }
+
+    public byte[] getTeamImage() {
+        return teamImage;
+    }
+
+    public void setTeamImage(byte[] teamImage) {
+        this.teamImage = teamImage;
     }
 
     public Coach getCoach() {

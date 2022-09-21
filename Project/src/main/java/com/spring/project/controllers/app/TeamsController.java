@@ -17,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,12 +85,15 @@ public class TeamsController {
     @PostMapping()
     public String createTeam(@ModelAttribute("team") TeamDTO teamDTO,
                              @RequestParam(value = "coachName", required = false) String coachName,
+                             @RequestParam(value = "teamImage", required = false)
+                                         MultipartFile teamImage,
                              @RequestParam(value = "playerName", required = false)
-                                         List<String> playerNameList) {
+                                         List<String> playerNameList) throws IOException {
         if (coachName == null & playerNameList == null) {
-            teamsService.createTeamWithoutCoachAndPlayers(convertToTeam(teamDTO));
+            teamsService.createTeamWithoutCoachAndPlayers(convertToTeam(teamDTO), teamImage);
         } else {
-            teamsService.createTeamWithCoachAndOrPlayers(convertToTeam(teamDTO), coachName, playerNameList);
+            teamsService.createTeamWithCoachAndOrPlayers(convertToTeam(teamDTO), coachName,
+                    playerNameList, teamImage);
         }
         return "/account/admin/adminPage";
     }
@@ -108,8 +113,10 @@ public class TeamsController {
                                @ModelAttribute("player") PlayerDTO playerDTO,
                                @RequestParam(value = "teamName", required = false) String teamName,
                                @ModelAttribute("coach") CoachDTO coachDTO, Model model) {
+        model.addAttribute("team", convertToTeamDTO(teamsService.team(teamName)));
+        model.addAttribute("teamImageName", teamsService.team(teamName).getTeamImageName());
 
-        if (!teamsService.team(teamName).getPlayers().isEmpty()) {
+        if (teamsService.team(teamName).getPlayers() != null) {
             model.addAttribute("players1", playersService.playersOfTeam(teamName).stream()
                     .map(this::convertToPlayerDTO).collect(Collectors.toList()));
             model.addAttribute("players2", playersService.allPlayersExceptSelected(teamName)
@@ -127,7 +134,6 @@ public class TeamsController {
             model.addAttribute("coaches", coachesService.allFreeCoaches().stream()
                     .map(this::convertToCoachDTO).collect(Collectors.toList()));
         }
-        model.addAttribute("team", convertToTeamDTO(teamsService.team(teamName)));
         return "team/admin/editTeam";
     }
 
@@ -137,13 +143,17 @@ public class TeamsController {
     public String editTeam(@ModelAttribute("team") TeamDTO teamDTO,
                            @PathVariable("team_name") String teamName,
                            @RequestParam(value = "coachName", required = false) String coachName,
+                           @RequestParam(value = "teamImage", required = false)
+                                       MultipartFile teamImage,
+                           @RequestParam(value = "teamImageName", required = false) String teamImageName,
                            @RequestParam(value = "playerName", required = false)
-                                       List<String> playerNameList) {
+                                       List<String> playerNameList) throws IOException {
         if (playerNameList == null & coachName == null) {
-            teamsService.editTeamWhereNotEditCoachAndPlayers(convertToTeam(teamDTO), teamName);
+            teamsService.editTeamWhereNotEditCoachAndPlayers(convertToTeam(teamDTO), teamName, teamImage,
+                    teamImageName);
         } else {
             teamsService.editTeamWhereEditCoachAndOrPlayers(convertToTeam(teamDTO), teamName,
-                    playerNameList, coachName);
+                    playerNameList, coachName, teamImage, teamImageName);
         }
         return "/account/admin/adminPage";
     }

@@ -10,7 +10,9 @@ import com.spring.project.repositories.app.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,12 +80,17 @@ public class TeamsService {
 
 
     @Transactional
-    public void createTeamWithoutCoachAndPlayers(Team team) {
+    public void createTeamWithoutCoachAndPlayers(Team team, MultipartFile teamImage) throws IOException {
+        if (teamImage != null) {
+            team.setTeamImageName(teamImage.getOriginalFilename());
+            team.setTeamImage(teamImage.getBytes());
+        }
         teamsRepository.save(team);
     }
 
     @Transactional
-    public void createTeamWithCoachAndOrPlayers(Team team, String coachName, List<String> playerNameList) {
+    public void createTeamWithCoachAndOrPlayers(Team team, String coachName, List<String> playerNameList,
+                                                MultipartFile teamImage) throws IOException {
 
         if (playerNameList != null) {
             List<Player> playersOfTeam = new ArrayList<>();
@@ -93,6 +100,11 @@ public class TeamsService {
                 playersOfTeam.add(player);
             }
             team.setPlayers(playersOfTeam);
+        }
+
+        if (teamImage != null) {
+            team.setTeamImageName(teamImage.getOriginalFilename());
+            team.setTeamImage(teamImage.getBytes());
         }
 
         teamsRepository.save(team);
@@ -107,7 +119,8 @@ public class TeamsService {
 
 
     @Transactional
-    public void editTeamWhereNotEditCoachAndPlayers(Team team, String teamName) {
+    public void editTeamWhereNotEditCoachAndPlayers(Team team, String teamName, MultipartFile teamImage,
+                                                    String teamImageName) throws IOException {
         Team editTeam = teamsRepository.findByTeamName(teamName).get();
         team.setTeamId(editTeam.getTeamId());
 
@@ -120,13 +133,23 @@ public class TeamsService {
             editTeam.getCoach().setTeam(team);
         }
 
+        if (teamImage != null) {
+            team.setTeamImage(teamImage.getBytes());
+            if (teamImage.getOriginalFilename().equals("")) {
+                team.setTeamImageName(teamImageName);
+            } else {
+                team.setTeamImageName(teamImage.getOriginalFilename());
+            }
+        }
+
         teamsRepository.save(team);
     }
 
 
     @Transactional
     public void editTeamWhereEditCoachAndOrPlayers(Team team, String teamName,
-                                                   List<String> playerNameList, String coachName) {
+                                                   List<String> playerNameList, String coachName,
+                                                   MultipartFile teamImage, String teamImageName) throws IOException {
         Team editTeam = teamsRepository.findByTeamName(teamName).get();
         team.setTeamId(editTeam.getTeamId());
 
@@ -153,6 +176,15 @@ public class TeamsService {
         } else if(coachName.equals("null") & editTeam.getCoach() != null) {
             Coach coach = editTeam.getCoach();
             team.setCoach(coach);
+        }
+
+        if (teamImage != null) {
+            team.setTeamImage(teamImage.getBytes());
+            if (teamImage.getOriginalFilename().equals("")) {
+                team.setTeamImageName(teamImageName);
+            } else {
+                team.setTeamImageName(teamImage.getOriginalFilename());
+            }
         }
 
         teamsRepository.save(team);

@@ -7,7 +7,7 @@
 <body>
 
 <form th:method="PATCH" th:action="@{/team/{team_name}(team_name=${team.getTeamName()})}"
-      th:object="${team}">
+      th:object="${team}" enctype="multipart/form-data">
 
     <label for="coachName" th:if="${coach1 == null}">Назначить тренера: </label>
     <select th:object="${coach}" th:field="*{coachName}" id="coachName" th:if="${coach1 == null}">
@@ -59,6 +59,18 @@
     <br/>
     <label for="stadium">Введите стадион команды: </label>
     <input type="text" th:field="*{stadium}" id="stadium">
+    <br/>
+
+    <label for="currentImageTeam" th:if="${teamImageName != null}">Текущее изображение команды: </label>
+    <input type="text" name="teamImageName" th:value="${teamImageName}" id="currentImageTeam" readonly
+           th:if="${teamImageName != null}">
+
+    <br th:if="${teamImageName != null}"/>
+
+    <label for="teamImage" th:if="${teamImageName != null}">Загрузите другое изображение команды: </label>
+    <label for="teamImage" th:if="${teamImageName == null}">Загрузите изображение команды: </label>
+    <input type="file" name="teamImage" id="teamImage" accept="image/png, image/jpeg">
+
     <br/>
 
     <label for="playerName" th:if="${players1 == null}">Выберите игроков: </label>

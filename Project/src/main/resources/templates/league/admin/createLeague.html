@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/league}" th:object="${league}">
+<form th:method="POST" th:action="@{/league}" th:object="${league}" enctype="multipart/form-data">
 
     <label for="leagueName">Название лиги: </label>
     <input th:type="text" th:field="*{leagueName}" id="leagueName">
@@ -16,6 +16,11 @@
     <br/>
     <label for="season">Сезон (гггг/гггг): </label>
     <input th:type="text" th:field="*{season}" id="season">
+    <br/>
+
+    <label for="leagueImage">Загрузите изображение лиги: </label>
+    <input type="file" name="leagueImage" id="leagueImage" accept="image/png, image/jpeg">
+
     <br/>
 
     <label for="teamName">Выберите команды: </label>

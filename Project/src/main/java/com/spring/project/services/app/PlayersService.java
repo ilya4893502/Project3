@@ -8,7 +8,10 @@ import com.spring.project.repositories.app.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,18 +76,23 @@ public class PlayersService {
 
 
     @Transactional
-    public void createPlayer(Player player, String teamName) {
+    public void createPlayer(Player player, String teamName, MultipartFile playerImage) throws IOException {
         if (!teamName.equals("null")) {
             Team team = teamsRepository.findByTeamName(teamName).get();
             player.setTeams(new ArrayList<>(List.of(team)));
             team.getPlayers().add(player);
+        }
+        if (playerImage != null) {
+            player.setPlayerImageName(playerImage.getOriginalFilename());
+            player.setPlayerImage(playerImage.getBytes());
         }
         playersRepository.save(player);
     }
 
 
     @Transactional
-    public void editPlayer(Player player, String playerName, String teamName) {
+    public void editPlayer(Player player, String playerName, String teamName, MultipartFile playerImage,
+                           String playerImageName) throws IOException {
         Player editPlayer = playersRepository.findByPlayerName(playerName).get();
         player.setPlayerId(editPlayer.getPlayerId());
 
@@ -112,6 +120,16 @@ public class PlayersService {
                 team.getPlayers().add(player);
             }
         }
+
+        if (playerImage != null) {
+            player.setPlayerImage(playerImage.getBytes());
+            if (playerImage.getOriginalFilename().equals("")) {
+                player.setPlayerImageName(playerImageName);
+            } else {
+                player.setPlayerImageName(playerImage.getOriginalFilename());
+            }
+        }
+
         playersRepository.save(player);
     }
 

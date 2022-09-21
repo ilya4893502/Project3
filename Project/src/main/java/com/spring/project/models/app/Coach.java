@@ -1,5 +1,6 @@
 package com.spring.project.models.app;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -25,6 +26,13 @@ public class Coach {
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth_coach")
     private Date dateOfBirthCoach;
+
+    @Column(name = "coach_image_name")
+    private String coachImageName;
+
+    @Lob
+    @Column(name = "coach_image")
+    private byte[] coachImage;
 
     @OneToOne(mappedBy = "coach")
     private Team team;
@@ -62,6 +70,22 @@ public class Coach {
 
     public void setDateOfBirthCoach(Date dateOfBirthCoach) {
         this.dateOfBirthCoach = dateOfBirthCoach;
+    }
+
+    public String getCoachImageName() {
+        return coachImageName;
+    }
+
+    public void setCoachImageName(String coachImageName) {
+        this.coachImageName = coachImageName;
+    }
+
+    public byte[] getCoachImage() {
+        return coachImage;
+    }
+
+    public void setCoachImage(byte[] coachImage) {
+        this.coachImage = coachImage;
     }
 
     public Team getTeam() {

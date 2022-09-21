@@ -10,7 +10,9 @@ import com.spring.project.repositories.app.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,18 +73,23 @@ public class CoachesService {
 
 
     @Transactional
-    public void createCoach(Coach coach, String teamName) {
+    public void createCoach(Coach coach, String teamName, MultipartFile coachImage) throws IOException {
         if (!teamName.equals("null")) {
             Team team = teamsRepository.findByTeamName(teamName).get();
             coach.setTeam(team);
             team.setCoach(coach);
+        }
+        if (coachImage != null) {
+            coach.setCoachImageName(coachImage.getOriginalFilename());
+            coach.setCoachImage(coachImage.getBytes());
         }
         coachesRepository.save(coach);
     }
 
 
     @Transactional
-    public void editCoach(Coach coach, String coachName, String teamName) {
+    public void editCoach(Coach coach, String coachName, String teamName, MultipartFile coachImage,
+                          String coachImageName) throws IOException {
         Coach editCoach = coachesRepository.findByCoachName(coachName).get();
         coach.setCoachId(editCoach.getCoachId());
 
@@ -108,6 +115,15 @@ public class CoachesService {
                 Team team = teamsRepository.findByTeamName(teamName).get();
                 coach.setTeam(team);
                 team.setCoach(coach);
+            }
+        }
+
+        if (coachImage != null) {
+            coach.setCoachImage(coachImage.getBytes());
+            if (coachImage.getOriginalFilename().equals("")) {
+                coach.setCoachImageName(coachImageName);
+            } else {
+                coach.setCoachImageName(coachImage.getOriginalFilename());
             }
         }
 

@@ -22,6 +22,13 @@ public class League {
     @Column(name = "season")
     private String season;
 
+    @Column(name = "league_image_name")
+    private String leagueImageName;
+
+    @Lob
+    @Column(name = "league_image")
+    private byte[] leagueImage;
+
     @OneToMany(mappedBy = "league")
     private List<Match> matches;
 
@@ -66,6 +73,22 @@ public class League {
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    public String getLeagueImageName() {
+        return leagueImageName;
+    }
+
+    public void setLeagueImageName(String leagueImageName) {
+        this.leagueImageName = leagueImageName;
+    }
+
+    public byte[] getLeagueImage() {
+        return leagueImage;
+    }
+
+    public void setLeagueImage(byte[] leagueImage) {
+        this.leagueImage = leagueImage;
     }
 
     public List<Team> getTeams() {

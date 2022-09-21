@@ -7,7 +7,7 @@
 <body>
 
 <form th:method="PATCH" th:action="@{/player/{player_name}(player_name=${player.getPlayerName()})}"
-      th:object="${player}">
+      th:object="${player}" enctype="multipart/form-data">
     <label for="playerName">Введите имя игрока: </label>
     <input type="text" th:field="*{playerName}" id="playerName">
     <br/>
@@ -48,6 +48,18 @@
     <br/>
     <label for="games">Количество игр: </label>
     <input type="text" th:field="*{games}" id="games">
+
+    <br/>
+
+    <label for="currentImagePlayer" th:if="${playerImageName != null}">Текущее изображение игрока: </label>
+    <input type="text" name="playerImageName" th:value="${playerImageName}" id="currentImagePlayer" readonly
+           th:if="${playerImageName != null}">
+
+    <br th:if="${playerImageName != null}"/>
+
+    <label for="playerImage" th:if="${playerImageName != null}">Загрузите другое изображение игрока: </label>
+    <label for="playerImage" th:if="${playerImageName == null}">Загрузите изображение игрока: </label>
+    <input type="file" name="playerImage" id="playerImage" accept="image/png, image/jpeg">
 
     <br/>
 

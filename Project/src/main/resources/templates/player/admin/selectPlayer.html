@@ -9,8 +9,18 @@
 <form th:method="GET" th:action="@{/player/edit_player_form}">
     <label for="playerName">Выберите игрока: </label>
     <select th:object="${player}" th:field="*{playerName}" id="playerName">
+        <option value=null style="font-weight: bold">Вратари</option>
         <option th:each="player : ${players}" th:value="${player.getPlayerName()}"
-                th:text="${player.getPlayerName()}"></option>
+                th:text="${player.getPlayerName()}" th:if="${player.getPositionPlayer() == 'вратарь'}"></option>
+        <option value=null style="font-weight: bold">Защитники</option>
+        <option th:each="player : ${players}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}" th:if="${player.getPositionPlayer() == 'защитник'}"></option>
+        <option value=null style="font-weight: bold">Полузащитники</option>
+        <option th:each="player : ${players}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}" th:if="${player.getPositionPlayer() == 'полузащитник'}"></option>
+        <option value=null style="font-weight: bold">Нападающие</option>
+        <option th:each="player : ${players}" th:value="${player.getPlayerName()}"
+                th:text="${player.getPlayerName()}" th:if="${player.getPositionPlayer() == 'нападающий'}"></option>
     </select>
     <input type="submit" value="Выбрать">
 </form>

@@ -1,8 +1,10 @@
 package com.spring.project;
 
+import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -22,23 +24,6 @@ public class ProjectApplication {
     @Bean
     public ModelMapper getModelMapper() {
         return new ModelMapper();
-    }
-
-
-
-    @Bean
-    public CommonsMultipartResolver commonsMultipartResolver() {
-        final CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxUploadSize(-1);
-        return commonsMultipartResolver;
-    }
-
-    @Bean
-    public FilterRegistrationBean multipartFilterRegistrationBean() {
-        final MultipartFilter multipartFilter = new MultipartFilter();
-        final FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(multipartFilter);
-        filterRegistrationBean.addInitParameter("multipartResolverBeanName", "commonsMultipartResolver");
-        return filterRegistrationBean;
     }
 
 }

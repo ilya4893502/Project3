@@ -1,5 +1,6 @@
 package com.spring.project.models.app;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -50,6 +51,9 @@ public class Player {
 
     @Column(name = "games")
     private int games;
+
+    @Column(name = "player_image_name")
+    private String playerImageName;
 
     @Lob
     @Column(name = "player_image")
@@ -169,6 +173,14 @@ public class Player {
 
     public void setGames(int games) {
         this.games = games;
+    }
+
+    public String getPlayerImageName() {
+        return playerImageName;
+    }
+
+    public void setPlayerImageName(String playerImageName) {
+        this.playerImageName = playerImageName;
     }
 
     public byte[] getPlayerImage() {

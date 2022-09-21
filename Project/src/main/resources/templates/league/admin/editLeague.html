@@ -7,7 +7,7 @@
 <body>
 
 <form th:method="PATCH" th:action="@{/league/{league_name}(league_name=${league.getLeagueName()})}"
-      th:object="${league}">
+      th:object="${league}" enctype="multipart/form-data">
 
     <label for="leagueName">Название лиги: </label>
     <input th:type="text" th:field="*{leagueName}" id="leagueName">
@@ -17,6 +17,18 @@
     <br/>
     <label for="season">Сезон (гггг/гггг): </label>
     <input th:type="text" th:field="*{season}" id="season">
+
+    <br/>
+
+    <label for="currentImageLeague" th:if="${leagueImageName != null}">Текущее изображение лиги: </label>
+    <input type="text" name="leagueImageName" th:value="${leagueImageName}" id="currentImageLeague" readonly
+           th:if="${leagueImageName != null}">
+
+    <br th:if="${leagueImageName != null}"/>
+
+    <label for="leagueImage" th:if="${leagueImageName != null}">Загрузите другое изображение лиги: </label>
+    <label for="leagueImage" th:if="${leagueImageName == null}">Загрузите изображение лиги: </label>
+    <input type="file" name="leagueImage" id="leagueImage" accept="image/png, image/jpeg">
 
     <br/>
 

@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/coach}" th:object="${coach}">
+<form th:method="POST" th:action="@{/coach}" th:object="${coach}" enctype="multipart/form-data">
     <label for="coachName">Введите имя тренера: </label>
     <input type="text" th:field="*{coachName}" id="coachName">
     <br/>
@@ -15,6 +15,12 @@
     <br/>
     <label for="dateOfBirthCoach">Введите дату рождения тренера (дд/мм/гггг): </label>
     <input type="text" th:field="*{dateOfBirthCoach}" id="dateOfBirthCoach">
+
+    <br/>
+
+    <label for="coachImage">Загрузите изображение тренера: </label>
+    <input type="file" name="coachImage" id="coachImage" accept="image/png, image/jpeg">
+
     <br/>
 
     <label for="teamName" th:unless="${teams.isEmpty()}">Выберите команду для тренера: </label>

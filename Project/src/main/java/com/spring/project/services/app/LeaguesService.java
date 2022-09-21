@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +67,8 @@ public class LeaguesService {
 
 
     @Transactional
-    public void createLeagueWhereSelectTeams(League league, List<String> teamNameList) {
+    public void createLeagueWhereSelectTeams(League league, List<String> teamNameList,
+                                             MultipartFile leagueImage) throws IOException {
         List<Team> teamList = new ArrayList<>();
         for (String teamName : teamNameList) {
             Team team = teamsRepository.findByTeamName(teamName).get();
@@ -73,19 +76,28 @@ public class LeaguesService {
             teamList.add(team);
         }
         league.setTeams(teamList);
+        if (leagueImage != null) {
+            league.setLeagueImageName(leagueImage.getOriginalFilename());
+            league.setLeagueImage(leagueImage.getBytes());
+        }
         leaguesRepository.save(league);
     }
 
 
     @Transactional
-    public void createLeagueWhereNotSelectTeams(League league) {
+    public void createLeagueWhereNotSelectTeams(League league, MultipartFile leagueImage) throws IOException {
+        if (leagueImage != null) {
+            league.setLeagueImageName(leagueImage.getOriginalFilename());
+            league.setLeagueImage(leagueImage.getBytes());
+        }
         leaguesRepository.save(league);
     }
 
 
 
     @Transactional
-    public void editLeagueWhereEditTeams (League league, String leagueName, List<String> teamNameList) {
+    public void editLeagueWhereEditTeams (League league, String leagueName, List<String> teamNameList,
+                                          MultipartFile leagueImage, String leagueImageName) throws IOException {
         League editLeague = leaguesRepository.findByLeagueName(leagueName).get();
         league.setLeagueId(editLeague.getLeagueId());
 
@@ -101,16 +113,35 @@ public class LeaguesService {
             }
         }
         league.setTeams(teamList);
+
+        if (leagueImage != null) {
+            league.setLeagueImage(leagueImage.getBytes());
+            if (leagueImage.getOriginalFilename().equals("")) {
+                league.setLeagueImageName(leagueImageName);
+            } else {
+                league.setLeagueImageName(leagueImage.getOriginalFilename());
+            }
+        }
+
         leaguesRepository.save(league);
     }
 
 
     @Transactional
-    public void editLeagueWhereNotEditTeams(League league, String leagueName) {
+    public void editLeagueWhereNotEditTeams(League league, String leagueName, MultipartFile leagueImage,
+                                            String leagueImageName) throws IOException {
         League editLeague = leaguesRepository.findByLeagueName(leagueName).get();
         league.setLeagueId(editLeague.getLeagueId());
         league.setTeams(editLeague.getTeams());
         editLeague.getTeams().forEach(team -> team.getLeagues().add(league));
+        if (leagueImage != null) {
+            league.setLeagueImage(leagueImage.getBytes());
+            if (leagueImage.getOriginalFilename().equals("")) {
+                league.setLeagueImageName(leagueImageName);
+            } else {
+                league.setLeagueImageName(leagueImage.getOriginalFilename());
+            }
+        }
         leaguesRepository.save(league);
     }
 

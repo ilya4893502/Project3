@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.io.File;
 import java.util.Date;
 
 public class PlayerDTO {
@@ -25,8 +26,6 @@ public class PlayerDTO {
     private int playerNumber;
     private String injury;
     private int games;
-    private byte[] playerImage;
-    private MultipartFile file;
 
 
     public String getPlayerName() {
@@ -115,21 +114,5 @@ public class PlayerDTO {
 
     public void setGames(int games) {
         this.games = games;
-    }
-
-    public byte[] getPlayerImage() {
-        return playerImage;
-    }
-
-    public void setPlayerImage(byte[] playerImage) {
-        this.playerImage = playerImage;
-    }
-
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
     }
 }

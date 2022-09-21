@@ -7,7 +7,7 @@
 <body>
 
 <form th:method="PATCH" th:action="@{/coach/{coach_name}(coach_name=${coach.getCoachName()})}"
-      th:object="${coach}">
+      th:object="${coach}" enctype="multipart/form-data">
     <label for="coachName">Введите имя тренера: </label>
     <input type="text" th:field="*{coachName}" id="coachName">
     <br/>
@@ -16,6 +16,18 @@
     <br/>
     <label for="dateOfBirthCoach">Введите дату рождения тренера (дд/мм/гггг): </label>
     <input type="text" th:field="*{dateOfBirthCoach}" id="dateOfBirthCoach">
+
+    <br/>
+
+    <label for="currentImageCoach" th:if="${coachImageName != null}">Текущее изображение тренера: </label>
+    <input type="text" name="coachImageName" th:value="${coachImageName}" id="currentImageCoach" readonly
+           th:if="${coachImageName != null}">
+
+    <br th:if="${coachImageName != null}"/>
+
+    <label for="coachImage" th:if="${coachImageName != null}">Загрузите другое изображение тренера: </label>
+    <label for="coachImage" th:if="${coachImageName == null}">Загрузите изображение тренера: </label>
+    <input type="file" name="coachImage" id="coachImage" accept="image/png, image/jpeg">
 
     <br/>
 

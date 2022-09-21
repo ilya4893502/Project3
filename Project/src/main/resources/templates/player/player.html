@@ -6,9 +6,7 @@
 </head>
 <body>
 
-<p th:text="${player.getPlayerName()}"></p>
-<p th:text="${'Позиция: ' + player.getPositionPlayer()}"></p>
-<p th:text="${'Клуб: ' + player.getTeams().get(0).getTeamName()}"></p>
+<img th:src="@{/{player_name}/playerImage(player_name=${player.getPlayerName()})}">
 
 </body>
 </html>

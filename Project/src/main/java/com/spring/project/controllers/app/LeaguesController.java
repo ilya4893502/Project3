@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,12 +74,14 @@ public class LeaguesController {
 
     @PostMapping()
     public String createLeague(@ModelAttribute("league") LeagueDTO leagueDTO,
+                               @RequestParam(value = "leagueImage", required = false)
+                                       MultipartFile leagueImage,
                                @RequestParam(value = "teamName", required = false)
-                                           List<String> teamNameList) {
+                                           List<String> teamNameList) throws IOException {
         if (teamNameList == null) {
-            leaguesService.createLeagueWhereNotSelectTeams(convertToLeague(leagueDTO));
+            leaguesService.createLeagueWhereNotSelectTeams(convertToLeague(leagueDTO), leagueImage);
         } else {
-            leaguesService.createLeagueWhereSelectTeams(convertToLeague(leagueDTO), teamNameList);
+            leaguesService.createLeagueWhereSelectTeams(convertToLeague(leagueDTO), teamNameList, leagueImage);
         }
 
         return "/account/admin/adminPage";
@@ -101,6 +104,7 @@ public class LeaguesController {
                                              String leagueName) {
 
         model.addAttribute("league", convertToLeagueDTO(leaguesService.league(leagueName)));
+        model.addAttribute("leagueImageName", leaguesService.league(leagueName).getLeagueImageName());
 
         if (!leaguesService.league(leagueName).getTeams().isEmpty()) {
             model.addAttribute("teams1", leaguesService.teamsOfLeague(leagueName).stream()
@@ -119,13 +123,17 @@ public class LeaguesController {
     @PatchMapping("/{league_name}")
     public String editLeague(@ModelAttribute("league") LeagueDTO leagueDTO,
                              @PathVariable("league_name") String leagueName,
+                             @RequestParam(value = "leagueImage", required = false)
+                                         MultipartFile leagueImage,
+                             @RequestParam(value = "leagueImageName", required = false) String leagueImageName,
                              @RequestParam(value = "teamName", required = false)
-                                         List<String> teamNameList) {
+                                         List<String> teamNameList) throws IOException {
         if (teamNameList == null) {
-            leaguesService.editLeagueWhereNotEditTeams(convertToLeague(leagueDTO), leagueName);
+            leaguesService.editLeagueWhereNotEditTeams(convertToLeague(leagueDTO), leagueName,
+                    leagueImage, leagueImageName);
         } else {
             leaguesService.editLeagueWhereEditTeams(convertToLeague(leagueDTO), leagueName,
-                    teamNameList);
+                    teamNameList, leagueImage, leagueImageName);
         }
         return "/account/admin/adminPage";
     }

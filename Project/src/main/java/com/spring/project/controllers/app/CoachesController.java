@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,7 +44,7 @@ public class CoachesController {
 
     @GetMapping("/create_coach_form")
     public String createCoachForm(@ModelAttribute("coach") CoachDTO coachDTO,
-                            @ModelAttribute("team") TeamDTO teamDTO, Model model) {
+                                  @ModelAttribute("team") TeamDTO teamDTO, Model model) {
         model.addAttribute("teams", teamsService.allTeamsWhereNotCoach().stream()
                 .map(this::convertToTeamDTO).collect(Collectors.toList()));
         return "coach/admin/createCoach";
@@ -51,8 +53,14 @@ public class CoachesController {
 
     @PostMapping()
     public String createCoach(@ModelAttribute("coach") CoachDTO coachDTO,
-                              @RequestParam(value = "teamName", required = false) String teamName) {
-        coachesService.createCoach(convertToCoach(coachDTO), teamName);
+                              @RequestParam(value = "teamName", required = false) String teamName,
+                              @RequestParam(value = "coachImage", required = false)
+                                          MultipartFile coachImage) {
+        try {
+            coachesService.createCoach(convertToCoach(coachDTO), teamName, coachImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "/account/admin/adminPage";
     }
 
@@ -70,6 +78,7 @@ public class CoachesController {
                                 @RequestParam(value = "coachName", required = false) String coachName,
                                 @ModelAttribute("team") TeamDTO teamDTO) {
         model.addAttribute("coach", convertToCoachDTO(coachesService.coach(coachName)));
+        model.addAttribute("coachImageName", coachesService.coach(coachName).getCoachImageName());
 
     if (coachesService.coach(coachName).getTeam() != null) {
         model.addAttribute("team1", convertToTeamDTO(coachesService.teamOfCoach(coachName)));
@@ -86,8 +95,15 @@ public class CoachesController {
     @PatchMapping("/{coach_name}")
     public String editCoach(@PathVariable("coach_name") String coachName,
                             @ModelAttribute("coach") CoachDTO coachDTO,
-                            @RequestParam(value = "teamName", required = false) String teamName) {
-        coachesService.editCoach(convertToCoach(coachDTO), coachName, teamName);
+                            @RequestParam(value = "teamName", required = false) String teamName,
+                            @RequestParam(value = "coachImageName", required = false) String coachImageName,
+                            @RequestParam(value = "coachImage", required = false)
+                                        MultipartFile coachImage) {
+        try {
+            coachesService.editCoach(convertToCoach(coachDTO), coachName, teamName, coachImage, coachImageName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "/account/admin/adminPage";
     }
 

@@ -7,7 +7,7 @@
 <body>
 
 
-<form th:method="POST" th:action="@{/team}" th:object="${team}">
+<form th:method="POST" th:action="@{/team}" th:object="${team}" enctype="multipart/form-data">
 
     <label for="coachName" th:unless="${coaches.isEmpty()}">Выберите тренера: </label>
     <label for="coachName" th:if="${coaches.isEmpty()}">Все тренеры заняты: </label>
@@ -47,6 +47,12 @@
     <br/>
     <label for="stadium">Введите стадион команды: </label>
     <input type="text" th:field="*{stadium}" id="stadium">
+
+    <br/>
+
+    <label for="teamImage">Загрузите изображение команды: </label>
+    <input type="file" name="teamImage" id="teamImage" accept="image/png, image/jpeg">
+
     <br/>
 
     <label for="playerName">Выберите игроков: </label>
