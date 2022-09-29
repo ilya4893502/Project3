@@ -43,7 +43,6 @@ public class LeaguesController {
         model.addAttribute("league", convertToLeagueDTO(leaguesService.league(leagueName)));
         model.addAttribute("teams", leaguesService.teamsOfLeague(leagueName).stream()
                 .map(this::convertToTeamDTO).collect(Collectors.toList()));
-        model.addAttribute("teamLogo", );
         model.addAttribute("leagueImage", leaguesService.convertToImageLeague(leagueName));
         return "league/league";
     }
