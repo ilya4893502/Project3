@@ -7,13 +7,16 @@ import com.spring.project.repositories.app.LeaguesRepository;
 import com.spring.project.repositories.app.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,9 +42,33 @@ public class LeaguesService {
     }
 
 
+    public String convertToImageLeague(String leagueName) throws IOException {
+        byte[] encodeBase64 = Base64.encode(leaguesRepository.findByLeagueName(leagueName).get().getLeagueImage());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+        return base64Encoded;
+    }
+
+
     public List<Team> teamsOfLeague(String leagueName) {
         League league = league(leagueName);
-        List<Team> teams = league.getTeams();
+        List<Team> teams = league.getTeams().stream().sorted(new Comparator<Team>() {
+            @Override
+            public int compare(Team o1, Team o2) {
+                if (o1.getNumberOfPoints() < o2.getNumberOfPoints()) {
+                    return 1;
+                } else if(o1.getNumberOfPoints() > o2.getNumberOfPoints()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        }).collect(Collectors.toList());
+
+        int position = 1;
+        for (Team team : teams) {
+            team.setPositionOnTable(position);
+            position++;
+        }
         return teams;
     }
 

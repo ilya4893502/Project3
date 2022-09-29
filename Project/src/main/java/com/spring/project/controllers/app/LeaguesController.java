@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,10 +39,12 @@ public class LeaguesController {
 
 
     @GetMapping("/{league_name}")
-    public String league(@PathVariable("league_name") String leagueName, Model model) {
+    public String league(@PathVariable("league_name") String leagueName, Model model) throws IOException {
         model.addAttribute("league", convertToLeagueDTO(leaguesService.league(leagueName)));
         model.addAttribute("teams", leaguesService.teamsOfLeague(leagueName).stream()
                 .map(this::convertToTeamDTO).collect(Collectors.toList()));
+        model.addAttribute("teamLogo", );
+        model.addAttribute("leagueImage", leaguesService.convertToImageLeague(leagueName));
         return "league/league";
     }
 
@@ -62,7 +65,6 @@ public class LeaguesController {
     }
 
 
-
     @GetMapping("/create_league_form")
     public String createLeagueForm(@ModelAttribute("league") LeagueDTO leagueDTO,
                              @ModelAttribute("team") TeamDTO teamDTO, Model model) {
@@ -70,6 +72,7 @@ public class LeaguesController {
                 .map(this::convertToTeamDTO).collect(Collectors.toList()));
         return "league/admin/createLeague";
     }
+
 
 
     @PostMapping()

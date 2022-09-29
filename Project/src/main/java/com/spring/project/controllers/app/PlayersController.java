@@ -36,9 +36,9 @@ public class PlayersController {
 
 
     @GetMapping("/{player_name}")
-    public String player(@PathVariable("player_name") String playerName, Model model) {
+    public String player(@PathVariable("player_name") String playerName, Model model) throws IOException {
         model.addAttribute("player", convertToPlayerDTO(playersService.player(playerName)));
-        model.addAttribute("playerImage", playersService.player(playerName).getPlayerImage());
+        model.addAttribute("playerImage", playersService.convertToImagePlayer(playerName));
         return "player/player";
     }
 

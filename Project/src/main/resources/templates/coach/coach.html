@@ -7,7 +7,9 @@
 <body>
 
 <p th:text="${coach.getCoachName()}"></p>
-<p th:text="${'Тренер (' + coach.getTeam().getTeamName() + ')'}"></p>
+<p th:text="${'Дата рождения: ' + coach.getDateOfBirthCoach()}"></p>
+
+<img th:src="@{'data:image/png;base64,'+${coachImage}}" height="70" width="70">
 
 </body>
 </html>

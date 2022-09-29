@@ -8,12 +8,20 @@ import com.spring.project.models.app.Team;
 import com.spring.project.repositories.app.CoachesRepository;
 import com.spring.project.repositories.app.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,6 +54,13 @@ public class CoachesService {
     public Coach coach(String coachName) {
         Coach coach = coachesRepository.findByCoachName(coachName).get();
         return coach;
+    }
+
+
+    public String convertToImageCoach(String coachName) throws IOException {
+        byte[] encodeBase64 = Base64.encode(coachesRepository.findByCoachName(coachName).get().getCoachImage());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+        return base64Encoded;
     }
 
 

@@ -6,13 +6,15 @@
 </head>
 <body>
 
+<img th:src="@{'data:image/png;base64,'+${leagueImage}}" height="70" width="70">
+
+<br/>
+
 <p th:text="${league.getLeagueCountry()}"></p>
 <p th:text="${league.getLeagueName()}"></p>
 <p th:text="${league.getSeason}"></p>
 
-
 <br/>
-
 
 <a th:href="@{/league/{league_name}/calendar(league_name=${league.getLeagueName()})}">Календарь</a>
 <a th:href="@{/league/{league_name}/results(league_name=${league.getLeagueName()})}">Результаты</a>
@@ -24,6 +26,7 @@
 <table>
     <tr>
         <th>#</th>
+        <th></th>
         <th>КОМАНДА</th>
         <th>И</th>
         <th>В</th>
@@ -34,7 +37,9 @@
     </tr>
 
     <tr th:each="team : ${teams}">
-        <td>1</td>
+        <td th:text="${team.getPositionOnTable()}"></td>
+        <td><img th:src="@{'data:image/png;base64,'+${teamLogo}}"
+                 height="10" width="10"></td>
         <td><a th:href="@{/team/{team_name}(team_name=${team.getTeamName()})}"
                th:text="${team.getTeamName()}"></a></td>
         <td th:text="${team.getNumberOfGames()}"></td>
