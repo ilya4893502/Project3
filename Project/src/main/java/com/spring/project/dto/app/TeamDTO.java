@@ -16,6 +16,7 @@ public class TeamDTO {
     private int goalsScored;
     private int goalsConceded;
     private String stadium;
+    private int positionOnTable;
 
 
     public String getTeamName() {
@@ -96,6 +97,14 @@ public class TeamDTO {
 
     public void setStadium(String stadium) {
         this.stadium = stadium;
+    }
+
+    public int getPositionOnTable() {
+        return positionOnTable;
+    }
+
+    public void setPositionOnTable(int positionOnTable) {
+        this.positionOnTable = positionOnTable;
     }
 
 }

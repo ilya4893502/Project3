@@ -8,6 +8,7 @@ import com.spring.project.repositories.app.CoachesRepository;
 import com.spring.project.repositories.app.PlayersRepository;
 import com.spring.project.repositories.app.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,13 @@ public class TeamsService {
     public Team team(String teamName){
         Team team = teamsRepository.findByTeamName(teamName).get();
         return team;
+    }
+
+
+    public String convertToImageTeam(String teamName) throws IOException {
+        byte[] encodeBase64 = Base64.encode(teamsRepository.findByTeamName(teamName).get().getTeamImage());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+        return base64Encoded;
     }
 
 
@@ -88,6 +96,7 @@ public class TeamsService {
         teamsRepository.save(team);
     }
 
+
     @Transactional
     public void createTeamWithCoachAndOrPlayers(Team team, String coachName, List<String> playerNameList,
                                                 MultipartFile teamImage) throws IOException {
@@ -115,7 +124,6 @@ public class TeamsService {
             team.setCoach(coach);
         }
     }
-
 
 
     @Transactional

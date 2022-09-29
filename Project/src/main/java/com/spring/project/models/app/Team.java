@@ -45,6 +45,9 @@ public class Team {
     @Column(name = "stadium")
     private String stadium;
 
+    @Transient
+    private int positionOnTable;
+
     @Column(name = "team_image_name")
     private String teamImageName;
 
@@ -162,6 +165,14 @@ public class Team {
 
     public void setStadium(String stadium) {
         this.stadium = stadium;
+    }
+
+    public int getPositionOnTable() {
+        return positionOnTable;
+    }
+
+    public void setPositionOnTable(int positionOnTable) {
+        this.positionOnTable = positionOnTable;
     }
 
     public String getTeamImageName() {

@@ -6,6 +6,7 @@ import com.spring.project.models.app.Team;
 import com.spring.project.repositories.app.PlayersRepository;
 import com.spring.project.repositories.app.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -38,6 +39,13 @@ public class PlayersService {
     public Player player(String playerName) {
         Player player = playersRepository.findByPlayerName(playerName).get();
         return player;
+    }
+
+
+    public String convertToImagePlayer(String playerName) throws IOException {
+        byte[] encodeBase64 = Base64.encode(playersRepository.findByPlayerName(playerName).get().getPlayerImage());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+        return base64Encoded;
     }
 
 

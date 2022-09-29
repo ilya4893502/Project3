@@ -8,13 +8,16 @@ import com.spring.project.services.app.CoachesService;
 import com.spring.project.services.app.TeamsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -34,9 +37,11 @@ public class CoachesController {
     }
 
 
+
     @GetMapping("/{coach_name}")
-    public String coach(@PathVariable("coach_name") String coachName, Model model) {
+    public String coach(@PathVariable("coach_name") String coachName, Model model) throws IOException {
         model.addAttribute("coach", convertToCoachDTO(coachesService.coach(coachName)));
+        model.addAttribute("coachImage", coachesService.convertToImageCoach(coachName));
         return "coach/coach";
     }
 
@@ -49,6 +54,8 @@ public class CoachesController {
                 .map(this::convertToTeamDTO).collect(Collectors.toList()));
         return "coach/admin/createCoach";
     }
+
+
 
 
     @PostMapping()

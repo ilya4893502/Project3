@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<img th:src="@{/{player_name}/playerImage(player_name=${player.getPlayerName()})}">
+<img th:src="@{'data:image/png;base64,'+${playerImage}}" height="70" width="70">
 
 </body>
 </html>

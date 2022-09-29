@@ -6,6 +6,10 @@
 </head>
 <body>
 
+<img th:src="@{'data:image/png;base64,'+${teamImage}}" height="70" width="70">
+
+<br/>
+
 <p th:text="${team.getTeamName()}"></p>
 
 <br/>

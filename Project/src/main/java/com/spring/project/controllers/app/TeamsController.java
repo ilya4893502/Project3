@@ -44,11 +44,12 @@ public class TeamsController {
 
 
     @GetMapping("/{team_name}")
-    public String team(@PathVariable("team_name") String teamName, Model model) {
+    public String team(@PathVariable("team_name") String teamName, Model model) throws IOException {
         model.addAttribute("team", convertToTeamDTO(teamsService.team(teamName)));
         model.addAttribute("players", teamsService.playersOfTeam(teamName).stream()
                 .map(this::convertToPlayerDTO).collect(Collectors.toList()));
         model.addAttribute("coach", convertToCoachDTO(teamsService.coachOfTeam(teamName)));
+        model.addAttribute("teamImage", teamsService.convertToImageTeam(teamName));
         return "team/team";
     }
 
